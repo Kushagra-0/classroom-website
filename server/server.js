@@ -7,10 +7,12 @@ const studentRoutes = require('./routes/studentRoutes');
 const dotenv = require('dotenv');
 
 dotenv.config();
-
 connectDB();
 
 const app = express();
+
+var cors = require('cors')
+app.use(cors())
 
 app.use(express.json({ extended: false }));
 

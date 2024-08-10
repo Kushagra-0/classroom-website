@@ -4,11 +4,14 @@ const principalController = require('../controllers/principalController');
 const authMiddleware = require('../middleware/authMiddleware');
 
 // Principal-specific routes
-router.post('/classroom', authMiddleware('Principal'), principalController.createClassroom);
-router.post('/assign-teacher', authMiddleware('Principal'), principalController.assignTeacher);
-router.get('/teachers', authMiddleware('Principal'), principalController.getAllTeachers);
-router.get('/students', authMiddleware('Principal'), principalController.getAllStudents);
-router.put('/user/:id', authMiddleware('Principal'), principalController.updateUser);
-router.delete('/user/:id', authMiddleware('Principal'), principalController.deleteUser);
+router.post('/classroom', principalController.createClassroom);
+router.post('/assign-teacher', principalController.assignTeacher);
+router.get('/teachers', principalController.getAllTeachers);
+router.get('/students', principalController.getAllStudents);
+router.put('/user/:id', principalController.updateUser);
+router.delete('/user/:id', principalController.deleteUser);
+
+router.post('/create-teacher', principalController.createTeacher);
+router.post('/create-student', principalController.createStudent);
 
 module.exports = router;

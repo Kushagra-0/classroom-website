@@ -1,5 +1,6 @@
 const Classroom = require('../models/Classroom');
 const User = require('../models/User');
+const bcrypt = require('bcryptjs');
 
 // Create a new classroom
 exports.createClassroom = async (req, res) => {
@@ -102,8 +103,64 @@ exports.deleteUser = async (req, res) => {
             return res.status(404).json({ msg: 'User not found' });
         }
 
-        await user.remove();
+        await user.deleteOne();
         res.json({ msg: 'User removed' });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+};
+
+// Create a new teacher
+exports.createTeacher = async (req, res) => {
+    const { name, email, password } = req.body;
+
+    try {
+        let user = await User.findOne({ email });
+        if (user) {
+            return res.status(400).json({ msg: 'User already exists' });
+        }
+
+        user = new User({
+            name,
+            email,
+            password,
+            role: 'Teacher'
+        });
+
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(password, salt);
+
+        await user.save();
+        res.status(201).json({ msg: 'Teacher created successfully', user });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+};
+
+// Create a new student
+exports.createStudent = async (req, res) => {
+    const { name, email, password } = req.body;
+
+    try {
+        let user = await User.findOne({ email });
+        if (user) {
+            return res.status(400).json({ msg: 'User already exists' });
+        }
+
+        user = new User({
+            name,
+            email,
+            password,
+            role: 'Student'
+        });
+
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(password, salt);
+
+        await user.save();
+        res.status(201).json({ msg: 'Student created successfully', user });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
