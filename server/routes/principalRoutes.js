@@ -6,6 +6,7 @@ const authMiddleware = require('../middleware/authMiddleware');
 // Principal-specific routes
 router.post('/classroom', principalController.createClassroom);
 router.post('/assign-teacher', principalController.assignTeacher);
+router.get('/classrooms', principalController.getAllClassroom);
 router.get('/teachers', principalController.getAllTeachers);
 router.get('/students', principalController.getAllStudents);
 router.put('/user/:id', principalController.updateUser);

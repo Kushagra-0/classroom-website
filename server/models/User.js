@@ -19,6 +19,9 @@ const UserSchema = new mongoose.Schema({
     classroomId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Classroom',
+        required: function() {
+            return this.role === 'Teacher' || this.role === 'Student';
+        }
     },
 });
 

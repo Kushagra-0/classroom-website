@@ -15,6 +15,8 @@ function Login() {
                 password,
             });
             localStorage.setItem('token', res.data.token);
+            localStorage.setItem('role', res.data.role);
+            localStorage.setItem('classroomId', res.data.classroomId);
             navigate('/dashboard');
         } catch (err) {
             console.error('Login failed', err);

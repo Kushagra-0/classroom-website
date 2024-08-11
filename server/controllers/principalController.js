@@ -53,7 +53,7 @@ exports.assignTeacher = async (req, res) => {
 // View all teachers
 exports.getAllTeachers = async (req, res) => {
     try {
-        const teachers = await User.find({ role: 'Teacher' });
+        const teachers = await User.find({ role: 'Teacher' }).populate('classroomId', 'name');
         res.json(teachers);
     } catch (err) {
         console.error(err.message);
@@ -64,13 +64,24 @@ exports.getAllTeachers = async (req, res) => {
 // View all students
 exports.getAllStudents = async (req, res) => {
     try {
-        const students = await User.find({ role: 'Student' });
+        const students = await User.find({ role: 'Student' }).populate('classroomId', 'name');
         res.json(students);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
     }
 };
+
+// View all classroom
+exports.getAllClassroom = async (req, res) => {
+    try {
+        const classrooms = await Classroom.find();
+        res.json(classrooms);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+}
 
 // Update teacher or student details
 exports.updateUser = async (req, res) => {
@@ -113,7 +124,7 @@ exports.deleteUser = async (req, res) => {
 
 // Create a new teacher
 exports.createTeacher = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, classroomId } = req.body;
 
     try {
         let user = await User.findOne({ email });
@@ -121,15 +132,18 @@ exports.createTeacher = async (req, res) => {
             return res.status(400).json({ msg: 'User already exists' });
         }
 
+        if (!classroomId) {
+            return res.status(400).json({ msg: 'Classroom ID is required for teachers' });
+        }
+
         user = new User({
             name,
             email,
             password,
-            role: 'Teacher'
+            role: 'Teacher',
+            classroomId
         });
 
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(password, salt);
 
         await user.save();
         res.status(201).json({ msg: 'Teacher created successfully', user });
@@ -141,7 +155,7 @@ exports.createTeacher = async (req, res) => {
 
 // Create a new student
 exports.createStudent = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, classroomId } = req.body;
 
     try {
         let user = await User.findOne({ email });
@@ -149,15 +163,18 @@ exports.createStudent = async (req, res) => {
             return res.status(400).json({ msg: 'User already exists' });
         }
 
+        if (!classroomId) {
+            return res.status(400).json({ msg: 'Classroom ID is required for students' });
+        }
+
         user = new User({
             name,
             email,
             password,
-            role: 'Student'
+            role: 'Student',
+            classroomId
         });
 
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(password, salt);
 
         await user.save();
         res.status(201).json({ msg: 'Student created successfully', user });

@@ -1,5 +1,4 @@
-import StudentTable from "../components/principal/studentTable";
-
+import StudentTable from "../components/teacher/studentTable";
 
 const TeacherDashboard = () => {
     return (

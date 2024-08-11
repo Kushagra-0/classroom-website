@@ -8,13 +8,19 @@ exports.login = async (req, res) => {
     try {
         let user = await User.findOne({ email });
         if (!user) {
+            console.log('User not found');
             return res.status(400).json({ msg: 'Invalid Credentials' });
         }
 
+        // console.log('User found:', user);
+
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
+            // console.log('Password does not match');
             return res.status(400).json({ msg: 'Invalid Credentials' });
         }
+
+        console.log('Password matches');
 
         const payload = {
             user: {
@@ -29,14 +35,16 @@ exports.login = async (req, res) => {
             { expiresIn: '1h' },
             (err, token) => {
                 if (err) throw err;
-                res.json({ token });
+                // console.log('Token generated:', token);
+                res.json({ token, role: user.role, classroomId: user.classroomId });
             }
         );
     } catch (err) {
-        console.error(err.message);
+        console.error('Server error:', err.message);
         res.status(500).send('Server error');
     }
 };
+
 
 exports.logout = async (req, res) => {
     try {

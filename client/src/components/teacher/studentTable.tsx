@@ -1,20 +1,21 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Teacher from '../../types/teacher';
-import AddTeacher from './addTeacher';
+import Student from '../../types/student';
+import AddStudent from './addStudent';
 
-const TeacherTable = () => {
-    const [teachers, setTeachers] = useState<Teacher[]>([]);
 
-    const fetchTeachers = async () => {
+const StudentTable = () => {
+    const [students, setStudents] = useState<Student[]>([]);
+
+    const fetchStudents = async () => {
         const token = localStorage.getItem('token');
         try {
-            const res = await axios.get('http://localhost:5000/api/principal/teachers', {
+            const res = await axios.get('http://localhost:5000/api/principal/students', {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            setTeachers(res.data);
+            setStudents(res.data);
         } catch (err) {
-            console.error('Failed to fetch teachers', err);
+            console.error('Failed to fetch students', err);
         }
     };
 
@@ -24,20 +25,20 @@ const TeacherTable = () => {
             await axios.delete(`http://localhost:5000/api/principal/user/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            fetchTeachers(); // Refresh the list
+            fetchStudents(); // Refresh the list
         } catch (err) {
-            console.error('Failed to delete teacher', err);
+            console.error('Failed to delete student', err);
         }
     };
 
     useEffect(() => {
-        fetchTeachers();
+        fetchStudents();
     }, []);
 
     return (
         <div>
-            <h2>Teachers</h2>
-            <AddTeacher onAdd={fetchTeachers} />
+            <h2>Students</h2>
+            <AddStudent onAdd={fetchStudents} />
             <table>
                 <thead>
                     <tr>
@@ -48,14 +49,14 @@ const TeacherTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {teachers.map((teacher) => (
-                        <tr key={teacher._id}>
-                            <td>{teacher.name}</td>
-                            <td>{teacher.email}</td>
-                            <td>{teacher.classroomId?.name || 'No Classroom Assigned'}</td>
+                    {students.map((student) => (
+                        <tr key={student._id}>
+                            <td>{student.name}</td>
+                            <td>{student.email}</td>
+                            <td>{student.classroomId?.name || 'No Classroom Assigned'}</td>
                             <td>
                                 <button>Edit</button>
-                                <button onClick={() => handleDelete(teacher._id)}>Delete</button>
+                                <button onClick={() => handleDelete(student._id)}>Delete</button>
                             </td>
                         </tr>
                     ))}
@@ -65,4 +66,4 @@ const TeacherTable = () => {
     );
 };
 
-export default TeacherTable;
+export default StudentTable;

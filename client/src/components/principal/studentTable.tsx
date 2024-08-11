@@ -2,11 +2,9 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Student from '../../types/student';
 import AddStudent from './addStudent';
-import Teacher from '../../types/teacher';
 
 const StudentTable = () => {
     const [students, setStudents] = useState<Student[]>([]);
-    const [editingStudent, setEditingStudent] = useState<Student | null>(null);
 
     const fetchStudents = async () => {
         const token = localStorage.getItem('token');
@@ -32,10 +30,6 @@ const StudentTable = () => {
         }
     };
 
-    const handleEdit = (student: Teacher) => {
-        setEditingStudent(student);
-    };
-
     useEffect(() => {
         fetchStudents();
     }, []);
@@ -49,6 +43,7 @@ const StudentTable = () => {
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Class</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -57,8 +52,9 @@ const StudentTable = () => {
                         <tr key={student._id}>
                             <td>{student.name}</td>
                             <td>{student.email}</td>
+                            <td>{student.classroomId?.name || 'No Classroom Assigned'}</td>
                             <td>
-                                <button onClick={() => handleEdit(student)}>Edit</button>
+                                <button>Edit</button>
                                 <button onClick={() => handleDelete(student._id)}>Delete</button>
                             </td>
                         </tr>
