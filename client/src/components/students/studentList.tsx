@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Student from '../../types/student';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 
 
 const StudentList = () => {
@@ -35,26 +36,30 @@ const StudentList = () => {
 
     return (
         <div>
-            <h2>Students in Your Classroom</h2>
+            <Typography variant="h4" gutterBottom>
+                Students in Your Classroom
+            </Typography>
             {students.length > 0 ? (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {students.map((student) => (
-                            <tr key={student._id}>
-                                <td>{student.name}</td>
-                                <td>{student.email}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Name</TableCell>
+                                <TableCell>Email</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {students.map((student) => (
+                                <TableRow key={student._id}>
+                                    <TableCell>{student.name}</TableCell>
+                                    <TableCell>{student.email}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             ) : (
-                <p>No students found in your classroom.</p>
+                <Typography variant="body1">No students found in your classroom.</Typography>
             )}
         </div>
     );

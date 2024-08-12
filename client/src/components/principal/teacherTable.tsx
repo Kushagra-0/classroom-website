@@ -35,32 +35,45 @@ const TeacherTable = () => {
     }, []);
 
     return (
-        <div>
-            <h2>Teachers</h2>
+        <div className="max-w-4xl mx-auto mt-8 p-4 bg-white rounded-lg shadow-lg">
+            <h1 className="text-2xl font-bold mb-4">Teachers</h1>
             <AddTeacher onAdd={fetchTeachers} />
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Class</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {teachers.map((teacher) => (
-                        <tr key={teacher._id}>
-                            <td>{teacher.name}</td>
-                            <td>{teacher.email}</td>
-                            <td>{teacher.classroomId?.name || 'No Classroom Assigned'}</td>
-                            <td>
-                                <button>Edit</button>
-                                <button onClick={() => handleDelete(teacher._id)}>Delete</button>
-                            </td>
+            <div className="overflow-x-auto">
+                <table className="min-w-full bg-white border border-gray-300 rounded-lg">
+                    <thead>
+                        <tr>
+                            <th className="px-4 py-2 border-b border-gray-300 text-left text-gray-700">Name</th>
+                            <th className="px-4 py-2 border-b border-gray-300 text-left text-gray-700">Email</th>
+                            <th className="px-4 py-2 border-b border-gray-300 text-left text-gray-700">Class</th>
+                            <th className="px-4 py-2 border-b border-gray-300 text-left text-gray-700">Actions</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {teachers.map((teacher) => (
+                            <tr key={teacher._id} className="hover:bg-gray-100">
+                                <td className="px-4 py-2 border-b border-gray-300">{teacher.name}</td>
+                                <td className="px-4 py-2 border-b border-gray-300">{teacher.email}</td>
+                                <td className="px-4 py-2 border-b border-gray-300">
+                                    {teacher.classroomId?.name || 'No Classroom Assigned'}
+                                </td>
+                                <td className="px-4 py-2 border-b border-gray-300 flex space-x-2">
+                                    <button
+                                        className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600"
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600"
+                                        onClick={() => handleDelete(teacher._id)}
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };

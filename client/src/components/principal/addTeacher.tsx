@@ -42,25 +42,48 @@ const AddTeacher = ({ onAdd }: { onAdd: () => void }) => {
     };
 
     return (
-        <div>
-            <h2>Add Teacher</h2>
-            <form onSubmit={handleAddTeacher}>
+        <div className="p-6 bg-white rounded-lg shadow-md mt-6">
+            <h2 className="text-2xl font-semibold mb-4">Add Teacher</h2>
+            <form onSubmit={handleAddTeacher} className="space-y-4">
                 <div>
-                    <label>Name:</label>
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+                    <label className="block text-gray-700">Name</label>
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                        className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
                 </div>
                 <div>
-                    <label>Email:</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    <label className="block text-gray-700">Email</label>
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
                 </div>
                 <div>
-                    <label>Password:</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                    <label className="block text-gray-700">Password</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
                 </div>
                 <div>
-                    <label>Classroom:</label>
-                    <select value={classroomId} onChange={(e) => setClassroomId(e.target.value)} required>
-                    <option value="">Select a classroom</option>
+                    <label className="block text-gray-700">Classroom</label>
+                    <select
+                        value={classroomId}
+                        onChange={(e) => setClassroomId(e.target.value)}
+                        required
+                        className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                        <option value="" disabled>Select a classroom</option>
                         {classrooms.map((classroom) => (
                             <option key={classroom._id} value={classroom._id}>
                                 {classroom.name}
@@ -68,7 +91,12 @@ const AddTeacher = ({ onAdd }: { onAdd: () => void }) => {
                         ))}
                     </select>
                 </div>
-                <button type="submit">Add Teacher</button>
+                <button
+                    type="submit"
+                    className="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition-colors"
+                >
+                    Add Teacher
+                </button>
             </form>
         </div>
     );
