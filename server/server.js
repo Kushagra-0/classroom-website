@@ -16,6 +16,10 @@ app.use(cors())
 
 app.use(express.json({ extended: false }));
 
+app.get("/", (req,res) => {
+    res.json("Hello")
+})
+
 app.use('/api/auth', authRoutes);
 app.use('/api/principal', principalRoutes);
 app.use('/api/teacher', teacherRoutes);

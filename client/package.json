@@ -1,8 +1,9 @@
 {
-  "name": "client",
+  "name": "classroom",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://classroom-system.vercel.app/",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
